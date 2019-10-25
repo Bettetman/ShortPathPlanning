@@ -1,5 +1,8 @@
 package cn.sicnu.frank;
 
+import org.jetbrains.annotations.NotNull;
+import sun.security.util.Length;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +69,46 @@ public class Result {
         }
         return  outputStr;
     }
-    public
+    public boolean setAllLines()
+    {
+        Station first = this.passStations.get(1);
+        for (Station s :
+                this.passStations) {
+            if (!first.equals(s))
+            {
+                Result.setStationLine(first,s);
+                first = s;
+            }
+
+        }
+        Result.setStationLine(first,this.passStations.get(passStations.size()-1));
+        return  true;
+    }
+
+    public static boolean setStationLine(@NotNull Station first, @NotNull Station second)
+    {
+        List<String> firstlines = first.getBelonglines();
+        List<String> secondlines = second.getBelonglines();
+
+        if(firstlines.size()>=secondlines.size())
+        {
+            for (String line : firstlines) {
+                if (secondlines.contains(line))
+                {
+                    first.setLine(line);
+                }
+            }
+        }
+        else {
+            for (String line :secondlines) {
+                if(firstlines.contains(line))
+                {
+                    first.setLine(line);
+                }
+            }
+        }
+        return first.equals(second)?false:true;
+    }
+
 
 }
